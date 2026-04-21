@@ -3,84 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Her Story – Cinematic</title>
+<title>Her Story</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
   overflow:hidden;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
 }
 
 #film{
-  width:360px;
-  height:640px;
+  width:100vw;
+  height:100vh;
   position:relative;
-  overflow:hidden;
-  background:black;
 }
 
-/* SCENE */
+/* SCENES */
 .scene{
   position:absolute;
   width:100%;
   height:100%;
-  background-size:cover;
-  background-position:center;
   opacity:0;
+  transition:opacity 1.2s ease, transform 6s ease;
   transform:scale(1);
-  filter:brightness(0.7) contrast(1.1);
-  transition:opacity 1.2s ease, transform 7s ease;
 }
 
 /* ACTIVE SCENE */
 .scene.active{
   opacity:1;
-  transform:scale(1.1);
+  transform:scale(1.08);
 }
 
-/* DARK OVERLAY */
-.overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
-}
+/* BACKGROUNDS (LOCAL SAFE COLORS = NO BLANK ISSUES) */
+#s1{background:linear-gradient(to bottom,#1e3a8a,#0f172a);}
+#s2{background:linear-gradient(to bottom,#334155,#0f172a);}
+#s3{background:linear-gradient(to bottom,#065f46,#022c22);}
+#s4{background:linear-gradient(to bottom,#7c2d12,#0f172a);}
+#s5{background:linear-gradient(to bottom,#4c1d95,#0f172a);}
+#s6{background:linear-gradient(to bottom,#111827,#000000);}
+#s7{background:linear-gradient(to bottom,#1f2937,#000000);}
+#s8{background:linear-gradient(to bottom,#0f172a,#000000);}
+#s9{background:linear-gradient(to bottom,#3f3f46,#000000);}
+#s10{background:linear-gradient(to bottom,#000000,#111827);}
 
 /* TEXT */
 #caption{
   position:absolute;
-  bottom:0;
+  bottom:60px;
   width:100%;
-  padding:20px;
-  color:#f5f5f5;
-  font-size:17px;
   text-align:center;
-  line-height:1.6;
+  color:white;
+  font-size:18px;
+  padding:0 20px;
   opacity:0;
-  transform:translateY(20px);
-  transition:all .8s ease;
+  transition:opacity .8s ease;
 }
 
-#caption.show{
-  opacity:1;
-  transform:translateY(0);
-}
+#caption.show{opacity:1;}
 
-/* FILM GRAIN */
-#film::after{
+/* CINEMATIC DARK OVERLAY */
+.scene::after{
   content:"";
   position:absolute;
   inset:0;
-  background:url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
-  opacity:0.15;
-  pointer-events:none;
+  background:radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.8));
 }
-
 </style>
 </head>
 
@@ -88,64 +77,66 @@ body{
 
 <div id="film">
 
-  <div id="caption"></div>
+<div id="caption"></div>
 
-  <!-- SCENES -->
-  <div class="scene" id="s1" style="background-image:url('https://images.unsplash.com/photo-1560185007-5f0bb1866cab');"><div class="overlay"></div></div>
-  <div class="scene" id="s2" style="background-image:url('https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2');"><div class="overlay"></div></div>
-  <div class="scene" id="s3" style="background-image:url('https://images.unsplash.com/photo-1504754524776-8f4f37790ca0');"><div class="overlay"></div></div>
-  <div class="scene" id="s4" style="background-image:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7');"><div class="overlay"></div></div>
-  <div class="scene" id="s5" style="background-image:url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4');"><div class="overlay"></div></div>
-  <div class="scene" id="s6" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2');"><div class="overlay"></div></div>
-  <div class="scene" id="s7" style="background-image:url('https://images.unsplash.com/photo-1588776814546-ec7e5c9d3f7b');"><div class="overlay"></div></div>
-  <div class="scene" id="s8" style="background-image:url('https://images.unsplash.com/photo-1520975916090-3105956dac38');"><div class="overlay"></div></div>
-  <div class="scene" id="s9" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee');"><div class="overlay"></div></div>
-  <div class="scene" id="s10" style="background-image:url('https://images.unsplash.com/photo-1519681393784-d120267933ba');"><div class="overlay"></div></div>
+<div class="scene" id="s1"></div>
+<div class="scene" id="s2"></div>
+<div class="scene" id="s3"></div>
+<div class="scene" id="s4"></div>
+<div class="scene" id="s5"></div>
+<div class="scene" id="s6"></div>
+<div class="scene" id="s7"></div>
+<div class="scene" id="s8"></div>
+<div class="scene" id="s9"></div>
+<div class="scene" id="s10"></div>
 
 </div>
 
 <script>
+
 const scenes = ["s1","s2","s3","s4","s5","s6","s7","s8","s9","s10"];
 
 const captions = [
 "Together, they built a home.",
-"He went out to earn.",
-"She stayed… and gave it life.",
-"She kept growing… quietly.",
-"She waited. Every single day.",
-"He was there… but never present.",
-"The house got quieter.",
-"Even in pain… she stood alone.",
-"When she broke… he blamed her.",
-"So she chose herself… and left."
+"He went to work every day.",
+"She took care of the house.",
+"She studied quietly… for herself.",
+"She waited for him every night.",
+"But he never noticed her waiting.",
+"Silence became normal.",
+"Even in pain… she was alone.",
+"Misunderstanding replaced love.",
+"So she chose herself and left."
 ];
 
 let i = 0;
 
 function showScene(){
-  document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
-  document.getElementById(scenes[i]).classList.add('active');
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  document.getElementById(scenes[i]).classList.add("active");
 
-  const cap = document.getElementById('caption');
-  cap.classList.remove('show');
+  const cap = document.getElementById("caption");
+  cap.classList.remove("show");
 
   setTimeout(()=>{
     cap.innerText = captions[i];
-    cap.classList.add('show');
+    cap.classList.add("show");
   },400);
 }
 
 function start(){
   showScene();
+
   setInterval(()=>{
     i++;
     if(i < scenes.length){
       showScene();
     }
-  }, 5500);
+  }, 5000);
 }
 
 window.onload = start;
+
 </script>
 
 </body>
